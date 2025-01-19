@@ -18,10 +18,7 @@
             }
 
             public Node(T element)
-                : this(element, null)
-            {
-                this.Element = element;
-            }
+                : this(element, null) { }
         }
 
         private Node top;

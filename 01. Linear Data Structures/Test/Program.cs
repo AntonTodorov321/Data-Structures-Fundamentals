@@ -1,7 +1,11 @@
-﻿var list = new Problem01.List.List<int>();
-list.Add(5);
-list.Add(5);
-list.Add(5);
-list.Add(5);
-list.Add(5);
-Console.WriteLine(list.IndexOf(0));
+﻿using Problem04.SinglyLinkedList;
+
+var linkedList = new SinglyLinkedList<int>();
+linkedList.AddFirst(1);
+linkedList.RemoveFirst();
+
+foreach (var item in linkedList)
+{
+    Console.WriteLine(item);
+}
+

@@ -18,10 +18,7 @@
             }
 
             public Node(T element)
-                : this(element, null)
-            {
-
-            }
+                : this(element, null) { }
         }
 
         private Node head;
@@ -77,7 +74,7 @@
         {
             Node node = head;
 
-            while(node != null)
+            while (node != null)
             {
                 if (node.Element.Equals(item))
                 {
