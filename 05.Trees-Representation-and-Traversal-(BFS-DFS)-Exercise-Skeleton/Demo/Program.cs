@@ -13,7 +13,7 @@
             IntegerTreeFactory factory = new IntegerTreeFactory();
             IntegerTree tree = factory.CreateTreeFromStrings(input);
             Console.WriteLine(tree.AsString());
-            Console.WriteLine(string.Join(", ", tree.GetLeafKeys()));
+            Console.WriteLine(string.Join(", ", tree.GetLongestPath()));
         }
     }
 }

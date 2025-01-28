@@ -1,8 +1,9 @@
 ﻿namespace Tree
 {
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
+    using System.Collections.Generic;
 
     public class Tree<T> : IAbstractTree<T>
     {
@@ -46,22 +47,34 @@
 
         public IEnumerable<T> GetInternalKeys()
         {
-            return this.DfsWithResultKeys(tree => tree.children.Count > 0 && tree.Parent != null);
+            return this.BfsWithResultKeys(tree => tree.children.Count > 0 && tree.Parent != null)
+                .Select(tree => tree.Key);
         }
 
         public IEnumerable<T> GetLeafKeys()
         {
-            return this.DfsWithResultKeys(tree => tree.children.Count == 0);
+            return this.BfsWithResultKeys(tree => tree.children.Count == 0)
+                .Select(tree => tree.Key);
         }
 
         public T GetDeepestKey()
         {
-            throw new NotImplementedException();
+            return this.GetDeepestNode().Key;
         }
 
         public IEnumerable<T> GetLongestPath()
         {
-            throw new NotImplementedException();
+            Tree<T> deepestNode = this.GetDeepestNode();
+            Stack<T> result = new Stack<T>();
+            result.Push(deepestNode.Key);
+
+            while (deepestNode.Parent != null)
+            {
+                deepestNode = deepestNode.Parent;
+                result.Push(deepestNode.Key);
+            }
+
+            return result;
         }
 
         private void DfsAsString(StringBuilder sb, Tree<T> tree, int indent)
@@ -75,18 +88,18 @@
             }
         }
 
-        private IEnumerable<T> DfsWithResultKeys(Predicate<Tree<T>> predicate)
+        private IEnumerable<Tree<T>> BfsWithResultKeys(Predicate<Tree<T>> predicate)
         {
             Queue<Tree<T>> queue = new Queue<Tree<T>>();
             queue.Enqueue(this);
-            List<T> result = new List<T>();
+            List<Tree<T>> result = new List<Tree<T>>();
 
             while (queue.Count > 0)
             {
                 Tree<T> subtree = queue.Dequeue();
                 if (predicate.Invoke(subtree))
                 {
-                    result.Add(subtree.Key);
+                    result.Add(subtree);
                 }
 
                 foreach (var child in subtree.children)
@@ -96,6 +109,40 @@
             }
 
             return result;
+        }
+
+        private Tree<T> GetDeepestNode()
+        {
+            IEnumerable<Tree<T>> leafs = this.BfsWithResultKeys(tree => tree.children.Count == 0);
+            Tree<T> deepestNode = null;
+            int maxDepth = 0;
+
+            foreach (var leaf in leafs)
+            {
+                int depth = this.GetDepth(leaf);
+
+                if (depth > maxDepth)
+                {
+                    maxDepth = depth;
+                    deepestNode = leaf;
+                }
+            }
+
+            return deepestNode;
+        }
+
+        private int GetDepth(Tree<T> leaf)
+        {
+            int depth = 0;
+            Tree<T> tree = leaf;
+
+            while (tree.Parent != null)
+            {
+                depth++;
+                tree = tree.Parent;
+            }
+
+            return depth;
         }
     }
 }
