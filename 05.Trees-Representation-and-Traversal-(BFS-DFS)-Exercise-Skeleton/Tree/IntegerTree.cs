@@ -23,9 +23,40 @@
             return result;
         }
 
-        public IEnumerable<Tree<int>> GetSubtreesWithGivenSum(int sum)
+        public IEnumerable<Tree<int>> GetSubtreesWithGivenSum(int wantedSum)
         {
-            throw new NotImplementedException();
+            List<Tree<int>> result = new List<Tree<int>>();
+            IEnumerable<Tree<int>> allSubtrees = this.GetAllNodesBfs();
+
+            foreach (var subtree in allSubtrees)
+            {
+                if (this.HasWantedSum(subtree, wantedSum))
+                {
+                    result.Add(subtree);
+                }
+            }
+
+            return result;
+        }
+
+        private IEnumerable<Tree<int>> GetAllNodesBfs()
+        {
+            Queue<Tree<int>> queue = new Queue<Tree<int>>();
+            List<Tree<int>> result = new List<Tree<int>>();
+            queue.Enqueue(this);
+
+            while (queue.Count > 0)
+            {
+                Tree<int> subtree = queue.Dequeue();
+                result.Add(subtree);
+
+                foreach (var child in subtree.Children)
+                {
+                    queue.Enqueue(child);
+                }
+            }
+
+            return result;
         }
 
         private void Dfs
@@ -50,6 +81,23 @@
 
             currentSum -= subtree.Key;
             currentPath.RemoveLast();
+        }
+
+        private bool HasWantedSum(Tree<int> subtree, int wantedSum)
+        {
+            int sum = subtree.Key;
+            this.DfsGetSubtreeSum(subtree, ref sum);
+
+            return sum == wantedSum;
+        }
+
+        private void DfsGetSubtreeSum(Tree<int> subtree, ref int sum)
+        {
+            foreach (var child in subtree.Children)
+            {
+                sum += child.Key;
+                this.DfsGetSubtreeSum(child, ref sum);
+            }
         }
     }
 }
