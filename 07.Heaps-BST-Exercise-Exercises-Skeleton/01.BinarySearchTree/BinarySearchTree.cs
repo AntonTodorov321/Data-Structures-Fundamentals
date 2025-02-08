@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Security.Cryptography;
+    using System.Text.RegularExpressions;
 
     public class BinarySearchTree<T> : IBinarySearchTree<T> where T : IComparable
     {
@@ -98,12 +98,12 @@
 
         public T Ceiling(T element)
         {
-            throw new NotImplementedException();
+            return this.Select(this.Rank(element) + 1);
         }
 
         public T Floor(T element)
         {
-            throw new NotImplementedException();
+            return this.Select(this.Rank(element) - 1);
         }
 
         public IEnumerable<T> Range(T startRange, T endRange)
