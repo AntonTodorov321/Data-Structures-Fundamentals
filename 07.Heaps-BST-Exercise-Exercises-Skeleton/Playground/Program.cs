@@ -1,24 +1,15 @@
 ﻿namespace Playground
 {
-    using _03.MinHeap;
+    using System;
+    using _04.CookiesProblem;
+
 
     class Program
     {
         static void Main(string[] args)
         {
-            PriorityQueue<int> queue = new PriorityQueue<int>();
-
-            queue.Enqueue(4);
-            queue.Enqueue(7);
-            queue.Enqueue(2);
-            queue.Enqueue(9);
-            queue.Enqueue(10);
-            queue.Enqueue(8);
-            queue.Enqueue(3);
-            queue.Enqueue(11);
-            queue.Enqueue(5);
-
-            queue.DecreaseKey(11, 6);
+            var queue = new CookiesProblem();
+            Console.WriteLine(queue.Solve(7, new int[] { 1, 1, 1 }));
         }
     }
 }
