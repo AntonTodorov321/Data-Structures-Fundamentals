@@ -60,7 +60,12 @@
 
         public void DeleteMax()
         {
-            throw new NotImplementedException();
+            if (this.root == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.root = this.DeleteMax(this.root);
         }
 
         public void DeleteMin()
@@ -268,6 +273,18 @@
             }
 
             return this.Count(node.Left);
+        }
+
+        private Node DeleteMax(Node node)
+        {
+            if (node.Right == null)
+            {
+                return node.Left;
+            }
+
+            node.Right = this.DeleteMax(node.Right);
+            node.Count = 1 + this.Count(node.Right) + this.Count(node.Left);
+            return node;
         }
     }
 }
