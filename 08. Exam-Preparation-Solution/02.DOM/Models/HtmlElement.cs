@@ -16,7 +16,7 @@
             foreach (var child in children)
             {
                 this.Children.Add(child);
-                this.Parent = this;
+                child.Parent = this;
             }
         }
 

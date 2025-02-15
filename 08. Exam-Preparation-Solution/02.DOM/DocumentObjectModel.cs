@@ -1,6 +1,7 @@
 ﻿namespace _02.DOM
 {
     using System;
+    using System.Text;
     using System.Collections.Generic;
 
     using _02.DOM.Interfaces;
@@ -41,24 +42,45 @@
 
         public IHtmlElement GetElementByType(ElementType type)
         {
-            throw new NotImplementedException();
+            Queue<IHtmlElement> queue = new Queue<IHtmlElement>();
+            queue.Enqueue(this.Root);
+
+            while (queue.Count != 0)
+            {
+                IHtmlElement element = queue.Dequeue();
+
+                if (element.Type == type)
+                {
+                    return element;
+                }
+
+                foreach (var child in element.Children)
+                {
+                    queue.Enqueue(child);
+                }
+            }
+
+            return null;
         }
 
         public List<IHtmlElement> GetElementsByType(ElementType type)
         {
-            throw new NotImplementedException();
+            List<IHtmlElement> elements = new List<IHtmlElement>();
+            this.GetByTypeDfs(type, this.Root, elements);
+
+            return elements;
         }
 
         public void InsertFirst(IHtmlElement parent, IHtmlElement child)
         {
-            this.ElementExist(parent);
+            this.ValidateElementExist(parent);
             parent.Children.Insert(0, child);
             child.Parent = parent;
         }
 
         public void InsertLast(IHtmlElement parent, IHtmlElement child)
         {
-            this.ElementExist(parent);
+            this.ValidateElementExist(parent);
             parent.Children.Add(child);
             child.Parent = parent;
         }
@@ -78,11 +100,28 @@
             throw new NotImplementedException();
         }
 
-        private void ElementExist(IHtmlElement parent)
+        public override string ToString()
         {
-            IHtmlElement element = this.FindElement(parent);
+            StringBuilder sb = new StringBuilder();
+            this.DfsToString(this.Root, 0, sb);
 
-            if (element == null)
+            return sb.ToString();
+        }
+
+        private void DfsToString(IHtmlElement node, int indent, StringBuilder sb)
+        {
+            sb.Append(' ', indent)
+                .AppendLine(node.Type.ToString());
+
+            foreach (var child in node.Children)
+            {
+                this.DfsToString(child, indent + 2, sb);
+            }
+        }
+
+        private void ValidateElementExist(IHtmlElement element)
+        {
+            if (!this.Contains(element))
             {
                 throw new InvalidOperationException();
             }
@@ -109,6 +148,19 @@
             }
 
             return null;
+        }
+
+        private void GetByTypeDfs(ElementType type, IHtmlElement node, List<IHtmlElement> elements)
+        {
+            foreach (var child in node.Children)
+            {
+                this.GetByTypeDfs(type, child, elements);
+            }
+
+            if (node.Type == type)
+            {
+                elements.Add(node);
+            }
         }
     }
 }
