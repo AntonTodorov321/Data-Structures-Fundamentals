@@ -1,7 +1,8 @@
 ﻿namespace _02.DOM.Interfaces
 {
-    using _02.DOM.Models;
     using System.Collections.Generic;
+
+    using _02.DOM.Models;
 
     public interface IHtmlElement
     {
