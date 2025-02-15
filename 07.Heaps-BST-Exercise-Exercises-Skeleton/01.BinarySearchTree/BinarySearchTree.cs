@@ -55,7 +55,18 @@
 
         public void Delete(T element)
         {
-            throw new NotImplementedException();
+            if(this.root == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if(root.Count == 1)
+            {
+                this.root = null;
+            }
+
+
+            Node node = this.FindElement(element);
         }
 
         public void DeleteMax()
