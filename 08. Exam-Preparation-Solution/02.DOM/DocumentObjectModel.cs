@@ -38,7 +38,25 @@
 
         public IHtmlElement GetElementById(string idValue)
         {
-            throw new NotImplementedException();
+            Queue<IHtmlElement> queue = new Queue<IHtmlElement>();
+            queue.Enqueue(this.Root);
+
+            while (queue.Count != 0)
+            {
+                IHtmlElement current = queue.Dequeue();
+
+                if (current.HasId(idValue))
+                {
+                    return current;
+                }
+
+                foreach (var child in current.Children)
+                {
+                    queue.Enqueue(child);
+                }
+            }
+
+            return null;
         }
 
         public IHtmlElement GetElementByType(ElementType type)

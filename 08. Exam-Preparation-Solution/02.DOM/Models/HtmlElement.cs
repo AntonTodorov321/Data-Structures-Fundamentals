@@ -41,9 +41,9 @@
 
         public bool HasId(string id)
         {
-            if (this.Attributes.ContainsKey(id))
+            if (this.Attributes.ContainsKey("id"))
             {
-                return this.Attributes[id] == id;
+                return this.Attributes["id"] == id;
             }
 
             return false;
