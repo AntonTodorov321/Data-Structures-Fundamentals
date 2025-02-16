@@ -30,7 +30,13 @@
 
         public bool AddAttribute(string key, string value)
         {
-            throw new NotImplementedException();
+            if (this.Attributes.ContainsKey(key))
+            {
+                return false;
+            }
+
+            this.Attributes.Add(key, value);
+            return true;
         }
 
         public bool HasId(string id)
@@ -45,7 +51,13 @@
 
         public bool RemoveAttribute(string key)
         {
-            throw new NotImplementedException(); 
+            if (!this.Attributes.ContainsKey(key))
+            {
+                return false;
+            }
+
+            this.Attributes.Remove(key);
+            return true;
         }
     }
 }

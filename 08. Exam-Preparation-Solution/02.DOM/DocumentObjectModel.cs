@@ -27,7 +27,8 @@
 
         public bool AddAttribute(string attrKey, string attrValue, IHtmlElement htmlElement)
         {
-            throw new NotImplementedException();
+            this.ValidateElementExist(htmlElement);
+            return htmlElement.AddAttribute(attrKey, attrValue);
         }
 
         public bool Contains(IHtmlElement htmlElement)
@@ -97,7 +98,8 @@
 
         public bool RemoveAttribute(string attrKey, IHtmlElement htmlElement)
         {
-            throw new NotImplementedException();
+            this.ValidateElementExist(htmlElement);
+            return htmlElement.RemoveAttribute(attrKey);
         }
 
         public override string ToString()
