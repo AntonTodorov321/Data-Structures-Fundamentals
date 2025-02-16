@@ -106,12 +106,34 @@
 
         public void Remove(IHtmlElement htmlElement)
         {
-            throw new NotImplementedException();
+            this.ValidateElementExist(htmlElement);
+
+            htmlElement.Parent.Children.Remove(htmlElement);
+            htmlElement.Parent = null;
+            htmlElement.Children.Clear();
         }
 
         public void RemoveAll(ElementType elementType)
         {
-            throw new NotImplementedException();
+            Queue<IHtmlElement> queue = new Queue<IHtmlElement>();
+            queue.Enqueue(this.Root);
+
+            while (queue.Count != 0)
+            {
+                IHtmlElement htmlElement = queue.Dequeue();
+
+                if (htmlElement.Type == elementType)
+                {
+                    htmlElement.Parent.Children.Remove(htmlElement);
+                    htmlElement.Parent = null;
+                    htmlElement.Children.Clear();
+                }
+
+                foreach (var child in htmlElement.Children)
+                {
+                    queue.Enqueue(child);
+                }
+            }
         }
 
         public bool RemoveAttribute(string attrKey, IHtmlElement htmlElement)
