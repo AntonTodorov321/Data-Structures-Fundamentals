@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using NUnit.Framework;
-
 namespace PublicTransportManagementSystem.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    using NUnit.Framework;
+
     public class PublicTransportRepositoryPerformanceTests
     {
         private IPublicTransportRepository _repository;

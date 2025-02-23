@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace PublicTransportManagementSystem
 {
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
+
     public class PublicTransportRepository : IPublicTransportRepository
     {
         private List<Passenger> passengers;

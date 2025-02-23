@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-
 namespace PublicTransportManagementSystem
 {
+    using System.Collections.Generic;
     public interface IPublicTransportRepository
     {
         void RegisterPassenger(Passenger passenger);
